@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import db from '../firebaseConfig';
+   
 //display albums imported from database
 
 export default function AlbumList() {
