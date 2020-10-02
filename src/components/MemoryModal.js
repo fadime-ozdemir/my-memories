@@ -48,7 +48,9 @@ export default function MemoryModal() {
               id="date"
               label="Date"
               type="date"
-              
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
              <TextField
               required
@@ -59,6 +61,9 @@ export default function MemoryModal() {
               type="file"
               accept = "image/*"
               fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
                <TextField
               autoFocus
