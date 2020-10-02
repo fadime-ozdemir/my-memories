@@ -33,6 +33,7 @@ export default function MemoryModal() {
               Add your memory here.
             </DialogContentText>
             <TextField
+              required
               autoFocus
               margin="dense"
               id="name"
@@ -41,7 +42,8 @@ export default function MemoryModal() {
               fullWidth
             />
             <TextField
-              
+              required
+              autoFocus
               margin="dense"
               id="date"
               label="Date"
@@ -49,7 +51,8 @@ export default function MemoryModal() {
               
             />
              <TextField
-              
+              required
+              autoFocus
               margin="dense"
               id="image"
               label="Enter a photo"
@@ -64,6 +67,7 @@ export default function MemoryModal() {
               label="Enter a description"
               type="text"
               fullWidth
+              multiline
             />
           </DialogContent>
           <DialogActions>
