@@ -1,14 +1,17 @@
 import React from 'react';
 import './App.css';
-import AlbumModal from "../components/AlbumModal";
+import {BrowserRouter as Router} from "react-router-dom";
+import AlbumModal from "../components/Album/AlbumModal";
 import MemoryModal from "../components/MemoryModal";
 
 function App() {
   return (
-    <div className="App">
-    <AlbumModal />
-    <MemoryModal />
-    </div>
+    <Router>
+      <div className="App">
+      <AlbumModal />
+      <MemoryModal />
+      </div>
+    </Router>
   );
 }
 
