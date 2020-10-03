@@ -28,7 +28,7 @@ export default function AddNewAlbum() {
   const handleChange = (e) => {
     setUserInput({...userInput, name: e.target.value, creationDate: new Date()})
   }
-  console.log(userInput)
+  
   const handleSubmit = (e) => {
     handleClose();
     addAlbum(e);
@@ -69,7 +69,7 @@ export default function AddNewAlbum() {
               </Badge>
             </IconButton>
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Start a new album</DialogTitle>
+          <DialogTitle id="form-dialog-title">Add a new album</DialogTitle>
           <DialogContent>
             <DialogContentText>
               To create a new collection of memories, please enter a name for your album here.
@@ -89,7 +89,7 @@ export default function AddNewAlbum() {
               Cancel
             </Button>
             <Button onClick={e => handleSubmit(e)} color="primary">
-              Start
+              Add
             </Button>
           </DialogActions>
         </Dialog>
