@@ -31,7 +31,12 @@ export default function AddNewAlbum() {
   console.log(userInput)
   const handleSubmit = (e) => {
     handleClose();
-    addAlbum(e)
+    addAlbum(e);
+    setUserInput({
+      name: "",
+      userId: "wfgh42",
+      creationDate:""
+    })
   }
   const addAlbum= e => {
     e.preventDefault()

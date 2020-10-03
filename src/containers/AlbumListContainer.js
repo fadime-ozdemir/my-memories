@@ -19,12 +19,8 @@ export default function AlbumListContainer() {
         // console.log(usersData);
         // setUsers(usersData)
       }
-      useEffect( ()=>{
-        fetchAlbums()
-        
-
-        },[]);
-  
+      useEffect( ()=>{fetchAlbums()},[]);
+      // useEffect( ()=>{fetchAlbums()},[albums]);
       console.log("albums", albums)
       
     
