@@ -1,12 +1,37 @@
 import React from 'react';
-import db from '../firebaseConfig';
-   
+
+import Album from "./Album";
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+
 //display albums imported from database
 
-export default function AlbumList() {
+
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+    },
+    paper: {
+      padding: theme.spacing(2),
+      textAlign: 'center',
+      color: theme.palette.text.secondary,
+    },
+  }));
+  
+export default function AlbumList({albums}) {
+    console.log(albums)
+    const classes = useStyles();
+
     return (
-        <div>
-            {/* map through the fetched data */}
+        <div className={classes.root}>
+            {albums? (
+            <Grid container spacing={3}>
+                {albums.map(album => <Album album={album} key={album.id}/>)}
+            </Grid>
+            ) : null}
         </div>
+        
     )
 }
+

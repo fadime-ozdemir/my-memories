@@ -1,18 +1,17 @@
 import React from 'react';
 import './App.css';
 import {BrowserRouter as Router} from "react-router-dom";
-import AlbumModal from "../components/Album/AlbumModal";
-import MemoryModal from "../components/memory/MemoryModal";
-import Navbar from '../components/Navbar';
-
+import AlbumList from "../components/Album/AlbumList";
+import Navbar from '../components/navbar/Navbar';
+import AlbumListContainer from "../containers/AlbumListContainer"
 function App() {
   return (
     <Router>
       <Navbar />
       <div className="App">
-        <AlbumModal />
-        <MemoryModal />
+        <AlbumList />
         
+        <AlbumListContainer />
       </div>
     </Router>
   );
