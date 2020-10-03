@@ -13,6 +13,7 @@ import MemoryListContainer from "../../containers/MemoryListContainer";
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
+    backgroundColor: '#caf0ff'
   },
   bullet: {
     display: 'inline-block',

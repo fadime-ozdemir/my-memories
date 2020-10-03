@@ -13,7 +13,7 @@ function App() {
       <div className="App">
         <AlbumList />
         <AlbumListContainer />
-        <MemoryModal />
+        {/* <MemoryModal /> */}
      
       </div>
     </Router>
