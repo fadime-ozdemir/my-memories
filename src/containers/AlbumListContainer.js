@@ -25,23 +25,32 @@ export default function AlbumListContainer() {
     //         setAlbums([...albumsData])
     //     });
     // }, [])
-    
-    useEffect(()=>{
-        db.collection("Albums").onSnapshot(function(snapshot) {
-                snapshot.docChanges().forEach(function(change) {
-                    if (change.type === "added") {
-            
-                        setAlbums([...albums, change.doc.data() ])
-                        console.log("New city: ", change.doc.data());
+
+    useEffect(() => {
+        db.collection("Albums").onSnapshot(function (snapshot) {
+            let albumsList = albums;
+            snapshot.docChanges().forEach(function (change) {
+                // console.log(change.);
+                if (change.type === "added") {
+                    const album = {
+                        id: change.doc.id,
+                        data: change.doc.data()
                     }
-                    // if (change.type === "modified") {
-                    //     console.log("Modified city: ", change.doc.data());
-                    // }
-                    // if (change.type === "removed") {
-                    //     console.log("Removed city: ", change.doc.data());
-                    // }
-                });
+                    
+                    albumsList.push(album);
+                }
+
+
+                // if (change.type === "modified") {
+                //     console.log("Modified city: ", change.doc.data());
+                // }
+                // if (change.type === "removed") {
+                //     console.log("Removed city: ", change.doc.data());
+                // }
             });
+            console.log(albumsList);
+            setAlbums([...albumsList])
+        });
 
     }, [])
 
