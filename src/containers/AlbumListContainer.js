@@ -15,15 +15,7 @@ export default function AlbumListContainer() {
     // }
 
     // useEffect(()=>{
-    //     db.collection("Albums").onSnapshot(function(res) {
-    //         // console.log(album.type),
-    //         const albumsData = res.docs.map(album => ({
-    //             id: album.id,
-    //             data: album.data()
-    //         }))
-    //         console.log("useffect", albumsData);
-    //         setAlbums([...albumsData])
-    //     });
+        // fetchAlbums()
     // }, [])
 
     useEffect(() => {
@@ -36,11 +28,9 @@ export default function AlbumListContainer() {
                         id: change.doc.id,
                         data: change.doc.data()
                     }
-                    
+
                     albumsList.push(album);
                 }
-
-
                 // if (change.type === "modified") {
                 //     console.log("Modified city: ", change.doc.data());
                 // }
@@ -48,7 +38,6 @@ export default function AlbumListContainer() {
                 //     console.log("Removed city: ", change.doc.data());
                 // }
             });
-            console.log(albumsList);
             setAlbums([...albumsList])
         });
 

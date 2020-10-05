@@ -1,20 +1,30 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter as Router} from "react-router-dom";
-import AlbumList from "../components/Album/AlbumList";
 import Navbar from '../components/navbar/Navbar';
 import AlbumListContainer from "../containers/AlbumListContainer";
 import MemoryModal from "../components/memory/MemoryModal";
-import MemoryListContainer from "../containers/MemoryListContainer"
+import MemoriesListContainer from "./MemoriesListContainer"
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useRouteMatch,
+} from "react-router-dom";
+
 function App() {
+
   return (
     <Router>
-      <Navbar />
       <div className="App">
-        <AlbumList />
-        <AlbumListContainer />
-        {/* <MemoryModal /> */}
-     
+        <Navbar />
+        <Switch>
+          <Route path={`/:albumId`}>
+            <MemoriesListContainer />
+          </Route>
+          <Route path="/">
+            <AlbumListContainer />
+          </Route>
+        </Switch>
       </div>
     </Router>
   );

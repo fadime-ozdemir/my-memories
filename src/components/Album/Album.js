@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -7,8 +6,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import { Route, Link } from 'react-router-dom';
-import MemoryListContainer from "../../containers/MemoryListContainer";
+import MemoryListContainer from "../../containers/MemoriesListContainer";
+import { Link } from "react-router-dom";
+
 
 const useStyles = makeStyles({
   root: {
@@ -26,29 +26,28 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
+  link: {
+    textDecoration: 'none',
+    color: '#000',
+  },
 });
 
 
-export default function Album({album}) {
+export default function Album({ album }) {
   const classes = useStyles();
- //when we click the card we should go to the memories list 
-
-const handleClick = ()=>{
-  
-}
- 
+  //when we click the card we should go to the memories list 
 
   return (
     <Grid item xs={3}>
-        <Card className={classes.root} onClick={handleClick}>
-        
-            <CardContent>
-              <Typography variant="h5" component="h2">
+      <Card className={classes.root} >
+        <Link to={'/' + album.id} className={classes.link}>
+          <CardContent>
+            <Typography variant="h5" component="h2">
               {album.data.name}
-              </Typography>
-            </CardContent>
-            
-        </Card>
+            </Typography>
+          </CardContent>
+        </Link>
+      </Card>
     </Grid>
   );
-  }
+}

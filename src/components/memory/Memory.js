@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { Route, Link } from 'react-router-dom';
-import MemoryList from "../memory/MemoryList";
+import MemoryList from "./MemoriesList";
 
 const useStyles = makeStyles({
   root: {
@@ -39,10 +39,10 @@ export default function Memory({memory}) {
         <Card className={classes.root} onClick={handleClick}>
         <CardContent>
             <Typography variant="h5" component="h2">
-            {memory.data.title}<br />
-            {memory.data.date}<br />
-            {memory.data.image}<br />
-            {memory.data.location}
+            {memory.title}<br />
+            {memory.date}<br />
+            {memory.image}<br />
+            {memory.location}
 
             </Typography>
         </CardContent>
