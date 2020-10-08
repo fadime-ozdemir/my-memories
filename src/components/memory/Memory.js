@@ -1,52 +1,74 @@
-import React from "react";
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
+import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
+import CardActions from '@material-ui/core/CardActions';
+import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import { red } from '@material-ui/core/colors';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Grid from '@material-ui/core/Grid';
-import { Route, Link } from 'react-router-dom';
-import MemoryList from "./MemoriesList";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
-    minWidth: 275,
+    maxWidth: 345,
   },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
   },
-  title: {
-    fontSize: 14,
+  settings: {
+    marginLeft: 'auto',
   },
-  pos: {
-    marginBottom: 12,
+  expandOpen: {
+    transform: 'rotate(180deg)',
   },
-});
+  avatar: {
+    backgroundColor: red[500],
+  },
+  caption: {
+    marginRight: '8px',
+  },
+}));
 
 
-export default function Memory({memory}) {
+export default function Memory({ memory }) {
   const classes = useStyles();
- //when we click the card we should go to the memories list 
-
- const handleClick = ()=>{
- }
 
   return (
     <Grid item xs={3}>
-        <Card className={classes.root} onClick={handleClick}>
+      <Card className={classes.root}>
+        <CardMedia
+          className={classes.media}
+          image="https://images.theconversation.com/files/250919/original/file-20181217-185258-1gc7soo.jpg"
+          title="Paella dish"
+        />
         <CardContent>
-            <Typography variant="h5" component="h2">
-            {memory.title}<br />
-            {memory.date}<br />
-            {memory.image}<br />
-            {memory.location}
-
-            </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {memory.words}
+        </Typography>
         </CardContent>
-        </Card>
+        <CardActions disableSpacing>
+          <IconButton aria-label="add to favorites">
+            <FavoriteIcon />
+          </IconButton>
+          <Typography className={classes.caption} variant="caption" color="textSecondary" component="p">
+            {memory.location}
+          </Typography>
+          <Typography className={classes.caption} variant="caption" color="textSecondary" component="p">
+            {memory.date}
+          </Typography>
+
+          <IconButton
+            className={classes.settings}
+            aria-label="settings"
+          >
+            <MoreVertIcon />
+          </IconButton>
+        </CardActions>
+      </Card>
     </Grid>
   );
 }

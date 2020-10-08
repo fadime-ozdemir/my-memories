@@ -46,9 +46,28 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+const initialState = {
+    words: null,
+    location: null,
+    date: null,
+    imageFile: null
+}
 
-export default function Subnav({ albumName }) {
+export default function Subnav({ albumName, submitData }) {
     const classes = useStyles();
+    
+    const [formData, setFormData] = React.useState(initialState)
+
+    const handleChange = e => {
+        const key = e.target.id;
+        const value = e.target.value
+
+        setFormData(formData => ({
+            ...formData,
+            [key]: value
+        }));
+    }
+
 
     const [open, setOpen] = React.useState(false);
 
@@ -59,6 +78,13 @@ export default function Subnav({ albumName }) {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleClick = () => {
+        submitData(formData)
+        setFormData(initialState)
+        setOpen(false);
+    }
+
     return (
         <div className={classes.root}>
             <Breadcrumbs aria-label="breadcrumb" separator="|">
@@ -81,36 +107,51 @@ export default function Subnav({ albumName }) {
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">New Memory</DialogTitle>
                 <DialogContent>
-                    <TextField autoFocus fullWidth id="standard-search" label="Title" type="text" />
+                    <TextField 
+                        multiline
+                        autoFocus 
+                        fullWidth 
+                        id="words"
+                        name="words"
+                        label="Some Words" 
+                        type="text" 
+                        value={formData.words}
+                        onChange={handleChange} />
                     <TextField
                         label="Location"
-                        id="margin-dense"
+                        id="location"
+                        name="location"
                         defaultValue=""
                         className={classes.textField}
                         helperText="The place of this memory"
                         margin="dense"
+                        value={formData.location}
+                        onChange={handleChange}
                     />
                     <TextField
                         label=" "
-                        type="datetime-local"
-                        id="margin-dense"
+                        type="date"
+                        id="date"
+                        name="date"
                         defaultValue=""
                         className={classes.textField}
                         helperText="The date of this memory"
                         margin="dense"
+                        value={formData.date}
+                        onChange={handleChange}
                     />
                     <DropzoneArea
                         acceptedFiles={['image/*']}
                         dropzoneText={"Drag and drop an image here or click"}
                         filesLimit={1}
-                        onChange={(files) => console.log('Files:', files)}
+                        onChange={(files) => setFormData(formData => ({...formData, imageFile: files[0]}))}
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
                         Cancel
                 </Button>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleClick} color="primary">
                         Add
                 </Button>
                 </DialogActions>

@@ -10,14 +10,13 @@ import db from "../../../firebaseConfig";
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Badge from '@material-ui/core/Badge';
 import IconButton from '@material-ui/core/IconButton';
+import {Redirect} from "react-router-dom";
+
 
 
 //create a new collection in the database
 export default function AddNewAlbum() {
-
-
-
-
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
   const [userInput, setUserInput] = useState({
     name: "",
@@ -36,7 +35,9 @@ export default function AddNewAlbum() {
       name: "",
       userId: "wfgh42",
       creationDate: ""
-    })
+    });
+
+    setShouldRedirect(true);
   }
   const addAlbum = e => {
     e.preventDefault()
@@ -87,6 +88,7 @@ export default function AddNewAlbum() {
             </Button>
         </DialogActions>
       </Dialog>
+      {shouldRedirect ? <Redirect to="/" /> : null}
     </div>
   )
 }

@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
   }));
   
 export default function AlbumList({albums}) {
-    console.log(albums)
     const classes = useStyles();
 
     return (
