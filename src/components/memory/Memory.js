@@ -42,7 +42,7 @@ export default function Memory({ memory }) {
       <Card className={classes.root}>
         <CardMedia
           className={classes.media}
-          image="https://images.theconversation.com/files/250919/original/file-20181217-185258-1gc7soo.jpg"
+          image={memory.data.imageFile? memory.data.imageFile : 'https://images.theconversation.com/files/250919/original/file-20181217-185258-1gc7soo.jpg'}
           title="Paella dish"
         />
         <CardContent>
