@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Memory({ memory }) {
   const classes = useStyles();
-
+  console.log("memory", memory.data)
   return (
     <Grid item xs={3}>
       <Card className={classes.root}>
@@ -47,7 +47,7 @@ export default function Memory({ memory }) {
         />
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
-            {memory.words}
+            {memory.data.words}
         </Typography>
         </CardContent>
         <CardActions disableSpacing>
@@ -55,10 +55,10 @@ export default function Memory({ memory }) {
             <FavoriteIcon />
           </IconButton>
           <Typography className={classes.caption} variant="caption" color="textSecondary" component="p">
-            {memory.location}
+            {memory.data.location}
           </Typography>
           <Typography className={classes.caption} variant="caption" color="textSecondary" component="p">
-            {memory.date}
+            {memory.data.date}
           </Typography>
 
           <IconButton

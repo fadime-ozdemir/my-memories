@@ -144,7 +144,7 @@ export default function Subnav({ albumName, submitData }) {
                         acceptedFiles={['image/*']}
                         dropzoneText={"Drag and drop an image here or click"}
                         filesLimit={1}
-                        onChange={(files) => setFormData(formData => ({...formData, imageFile: files[0]}))}
+                        // onChange={(files) => setFormData(formData => ({...formData, imageFile: files[0]}))}
                     />
                 </DialogContent>
                 <DialogActions>
