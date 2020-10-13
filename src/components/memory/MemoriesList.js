@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function MemoryList({ memories, albumName, albumId, setMemories,getDeletedItemId}) {
+export default function MemoryList({ memories, albumName, albumId, setMemories}) {
 
   const classes = useStyles();
 
@@ -38,20 +38,19 @@ export default function MemoryList({ memories, albumName, albumId, setMemories,g
       () => {
         // complete function ....
         storage.ref('images').child(image.name).getDownloadURL().then(url => {
-          db.collection('Albums').doc(albumId).collection("Memories").add({ ...formData, imageFile: url })
+          db.collection('Albums').doc(albumId).collection("Memories").add({ ...formData, imageFile: url, imageName: image.name })
           console.log('url', url);
         })
       });
   }
 
-  console.log("list-memory", memories)
   return (
 
     <div className={classes.root}>
       <Subnav albumName={albumName} submitData={submitData} />
       {memories && memories.length > 0 ? (
         <Grid container spacing={3}>
-          {memories.map(memory => <Memory memory={memory} key={memory.id} getDeletedItemId={getDeletedItemId} albumId={albumId} setMemories={setMemories} />)}
+          {memories.map(memory => <Memory memory={memory} key={memory.id} albumId={albumId} setMemories={setMemories} />)}
         </Grid>
       ) : null}
     </div>

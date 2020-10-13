@@ -3,11 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import MemoryListContainer from "../../containers/MemoriesListContainer";
 import { Link } from "react-router-dom";
+import AlbumSettingMenu from './components/AlbumSettingMenu'
 
 
 const useStyles = makeStyles({
@@ -30,6 +29,16 @@ const useStyles = makeStyles({
     textDecoration: 'none',
     color: '#000',
   },
+  settings: {
+    marginLeft: 'auto',
+  },
+  header: {
+    paddingBottom: '0'
+  },
+  content: {
+    paddingTop: '0'
+  },
+
 });
 
 
@@ -40,13 +49,16 @@ export default function Album({ album }) {
   return (
     <Grid item xs={3}>
       <Card className={classes.root} >
-        <Link to={'/' + album.id} className={classes.link}>
-          <CardContent>
+        <CardActions disableSpacing className={classes.header}>
+          <AlbumSettingMenu albumId={album.id} />
+        </CardActions>
+        <CardContent className={classes.content}>
+          <Link to={'/' + album.id} className={classes.link}>
             <Typography variant="h5" component="h2">
               {album.data.name}
             </Typography>
-          </CardContent>
-        </Link>
+          </Link>
+        </CardContent>
       </Card>
     </Grid>
   );

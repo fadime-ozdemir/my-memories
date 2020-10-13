@@ -15,7 +15,7 @@ export default function AlbumListContainer() {
     // }
 
     // useEffect(()=>{
-        // fetchAlbums()
+    // fetchAlbums()
     // }, [])
 
     useEffect(() => {
@@ -30,22 +30,17 @@ export default function AlbumListContainer() {
                     }
 
                     albumsList.push(album);
-                    setAlbums([...albumsList])
                 }
                 // if (change.type === "modified") {
                 //     console.log("Modified city: ", change.doc.data());
                 // }
                 if (change.type === "removed") {
-                    console.log("Removed city: ", change.doc.data());
-                    const deletedItem=change.doc.data();
-                    const deletedItemIndex = albums.indexOf(deletedItem);
-                    if (deletedItemIndex > -1) {
-                        albumsList=albums.splice(deletedItemIndex, 1)
-                        return setAlbums([...albumsList])    
-                    }
+                    const removedAlbumId = change.doc.id;
+                    albumsList = albumsList.filter(memory => memory.id !== removedAlbumId);
                 }
+                setAlbums([...albumsList])
             });
-            
+
         });
 
     }, [])
