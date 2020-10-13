@@ -30,15 +30,22 @@ export default function AlbumListContainer() {
                     }
 
                     albumsList.push(album);
+                    setAlbums([...albumsList])
                 }
                 // if (change.type === "modified") {
                 //     console.log("Modified city: ", change.doc.data());
                 // }
-                // if (change.type === "removed") {
-                //     console.log("Removed city: ", change.doc.data());
-                // }
+                if (change.type === "removed") {
+                    console.log("Removed city: ", change.doc.data());
+                    const deletedItem=change.doc.data();
+                    const deletedItemIndex = albums.indexOf(deletedItem);
+                    if (deletedItemIndex > -1) {
+                        albumsList=albums.splice(deletedItemIndex, 1)
+                        return setAlbums([...albumsList])    
+                    }
+                }
             });
-            setAlbums([...albumsList])
+            
         });
 
     }, [])

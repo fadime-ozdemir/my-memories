@@ -10,6 +10,11 @@ import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import db, {storage} from "../../firebaseConfig";
+import * as admin from 'firebase-admin';
+
+admin.initializeApp();
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,12 +36,55 @@ const useStyles = makeStyles((theme) => ({
   caption: {
     marginRight: '8px',
   },
+  
 }));
 
 
-export default function Memory({ memory }) {
+export default function Memory({ memory, albumId, setMemories, getDeletedItemId }) {
   const classes = useStyles();
-  console.log("memory", memory.data)
+  console.log("memory", memory)
+
+  const [isClick, setClick]= React.useState(false)
+  const [toggle, setToggle]=React.useState(null)
+
+  
+ 
+const deletePhoto = (memoryImg)=>{
+  const bucket = admin.storage().bucket("images");
+
+  // const bucket = storage.bucket();
+
+  return bucket.deleteFiles({
+    prefix: `images/${memoryImg}`}
+  );
+}
+  //delete memory from database
+  const deleteMemory = ()=>{
+    db.collection("Albums").doc(albumId).collection("Memories").doc(memory.id).delete().then(function() {
+                deletePhoto(memory.data.imageFile)
+                getDeletedItemId()
+                console.log("Document successfully deleted!");
+            }).catch(function(error) {
+                console.error("Error removing document: ", error);
+            })
+            return setToggle(setClick(!isClick))
+
+  }
+ //update memory to the database
+  const editMemory = ()=>{
+    return(
+      db.collection("Albums").doc(albumId).collection("Memories").doc(memory.id).update({foo: "bar"})
+    )
+  }
+
+  const renderOptions = ()=>{
+    return <div>
+      <Button onClick={deleteMemory}>Delete</Button>
+      <Button onClick={editMemory}>Edit</Button>
+    </div>
+  }
+ 
+
   return (
     <Grid item xs={3}>
       <Card className={classes.root}>
@@ -61,13 +109,16 @@ export default function Memory({ memory }) {
             {memory.data.date}
           </Typography>
 
+          
+
           <IconButton
             className={classes.settings}
             aria-label="settings"
           >
-            <MoreVertIcon />
+            <MoreVertIcon onClick={()=>setToggle(setClick(!isClick))}/>
           </IconButton>
         </CardActions>
+        {isClick && renderOptions()}
       </Card>
     </Grid>
   );

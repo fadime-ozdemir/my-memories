@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function MemoryList({ memories, albumName, albumId }) {
+export default function MemoryList({ memories, albumName, albumId, setMemories,getDeletedItemId}) {
 
   const classes = useStyles();
 
@@ -51,7 +51,7 @@ export default function MemoryList({ memories, albumName, albumId }) {
       <Subnav albumName={albumName} submitData={submitData} />
       {memories && memories.length > 0 ? (
         <Grid container spacing={3}>
-          {memories.map(memory => <Memory memory={memory} key={memory.id} />)}
+          {memories.map(memory => <Memory memory={memory} key={memory.id} getDeletedItemId={getDeletedItemId} albumId={albumId} setMemories={setMemories} />)}
         </Grid>
       ) : null}
     </div>
