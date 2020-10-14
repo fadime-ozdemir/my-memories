@@ -100,8 +100,8 @@ export default function AlbumSettingMenu({albumId}) {
                     </ListItemIcon>
                     <ListItemText primary="Edit" />
                 </StyledMenuItem>
-                <StyledMenuItem>
-                    <ListItemIcon onClick={deleteAlbum}>
+                <StyledMenuItem onClick={deleteAlbum}>
+                    <ListItemIcon>
                         <DeleteIcon fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary="Delete" />

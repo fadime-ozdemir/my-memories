@@ -11,7 +11,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import Grid from '@material-ui/core/Grid';
 import * as admin from 'firebase-admin';
 import MemorySettingMenu from './components/MemorySettingMenu'
-import EditModal from "./EditModal"
+// import EditModal from "./components/EditModal"
 // admin.initializeApp();
 
 const useStyles = makeStyles((theme) => ({
@@ -40,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Memory({ memory, albumId, handleClickOpen }) {
   const classes = useStyles();
-  console.log("memory", memory)
   
   return (
     <Grid item xs={3}>

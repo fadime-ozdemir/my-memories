@@ -13,7 +13,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import { DropzoneArea } from 'material-ui-dropzone';
-import db from "../../firebaseConfig"
+import db, { storage } from "../../../firebaseConfig"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -48,8 +48,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function EditModal({ memory, albumId}) {
+export default function EditModal({ memory, albumId, openEdit, setOpenEditModal }) {
     const classes = useStyles();
+    const prevImageName = memory.data.imageName;
 
     const [formData, setFormData] = React.useState(memory.data)
 
@@ -62,53 +63,88 @@ export default function EditModal({ memory, albumId}) {
             [key]: value
         }));
     }
-   
 
-    const [open, setOpen] = React.useState(false);
-    const handleClose = () => {
-        setOpen(false);
-    };
-    const updateMemory = ()=>{
-        db.collection("Albums").doc(albumId).collection("Memories").doc(memory.id).update(formData)
+    const randomId = () => {
+        return Math.floor(Math.random() * 1000000 + 1)
     }
+
+    const handleClose = () => {
+        setOpenEditModal(false);
+    };
+
+    const updateMemory = () => {
+        if (formData.imageFile === undefined) {
+            db.collection("Albums").doc(albumId).collection("Memories").doc(memory.id).update({
+                date: formData.date,
+                location: formData.location,
+                words: formData.words
+            })
+        } else if (formData.imageFile) {
+            updateMemoryData(formData)
+        }
+    }
+
+    const updateMemoryData = (formData) => {
+        const image = formData.imageFile;
+        const imageName = randomId() + '-' + image.name;
+        const uploadTask = storage.ref(`images/${imageName}`).put(image);
+
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                // progrss function ....
+                const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                console.log("progress", progress);
+            },
+            (error) => {
+                // error function ....
+                console.log(error);
+            },
+            () => {
+                // complete function ....
+                deleteImage(prevImageName);
+
+                storage.ref('images').child(imageName).getDownloadURL()
+                    .then(url => {
+                        db.collection("Albums").doc(albumId).collection("Memories").doc(memory.id).update({
+                            date: formData.date,
+                            location: formData.location,
+                            words: formData.words,
+                            imageFile: url,
+                            imageName: imageName
+                        })
+                    })
+            });
+    }
+
+    const deleteImage = (imageName) => {
+        storage.ref(`images/${imageName}`).delete().then(function () {
+            console.log('image ' + imageName + ' deleted successfully');
+        }).catch(function (error) {
+            console.log('Uh-oh, an error occurred while deleting the image', error);
+        });
+    }
+
     const handleClick = () => {
         //when we click edit we send the updated data to server
 
         updateMemory()
 
-        setOpen(false);
+        setOpenEditModal(false);
     }
 
     return (
         <div className={classes.root}>
-            {/* <Breadcrumbs aria-label="breadcrumb" separator="|">
-                <Link color="inherit" href="/" className={classes.link}>
-                    <HomeIcon className={classes.icon} />
-                    Albums
-                </Link>
-                <Typography color="textPrimary" className={classes.link}>
-                    <GrainIcon className={classes.icon} />
-                    {albumId}
-                </Typography>
-
-            </Breadcrumbs>
-
-            <Typography color="textPrimary" className={classes.add} onClick={handleClickOpen}>
-                <AddIcon className={classes.icon} />
-                   Edit 
-            </Typography> */}
-
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog open={openEdit} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Edit Memory</DialogTitle>
                 <DialogContent>
-                    <TextField 
+                    <TextField
                         multiline
-                        autoFocus 
-                        fullWidth 
+                        autoFocus
+                        fullWidth
                         id="words"
                         name="words"
-                        label="Some Words" 
-                        type="text" 
+                        label="Some Words"
+                        type="text"
                         value={formData.words}
                         onChange={handleChange} />
                     <TextField
@@ -139,7 +175,7 @@ export default function EditModal({ memory, albumId}) {
                         dropzoneText={"Drag and drop an image here or click"}
                         filesLimit={1}
                         value={formData.imageFile}
-                        onChange={(files) => setFormData(formData => ({...formData, imageFile: files[0]}))}
+                        onChange={(files) => setFormData(formData => ({ ...formData, imageFile: files[0] }))}
                     />
                 </DialogContent>
                 <DialogActions>

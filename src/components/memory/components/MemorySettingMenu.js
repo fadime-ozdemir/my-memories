@@ -9,7 +9,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import db, { storage } from "../../../firebaseConfig";
-import EditModal from '../EditModal';
+import EditModal from './EditModal';
 
 
 const useStyles = makeStyles({
@@ -51,7 +51,7 @@ const StyledMenuItem = withStyles((theme) => ({
     },
 }))(MenuItem);
 
-export default function MemorySettingMenu({memory, albumId, handleClickOpen}) {
+export default function MemorySettingMenu({ memory, albumId }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const classes = useStyles();
@@ -64,35 +64,27 @@ export default function MemorySettingMenu({memory, albumId, handleClickOpen}) {
         setAnchorEl(null);
     };
 
-    const deleteMemory = () => {
+    const handleDeleteMemory = () => {
         db.collection("Albums").doc(albumId).collection("Memories").doc(memory.id).delete().then(function () {
-          storage.ref(`images/${memory.data.imageName}`).delete().then(function () {
-            console.log('image deleted successfully');
-          }).catch(function (error) {
-            console.log('Uh-oh, an error occurred while deleting the image', error);
-          });
-          console.log("Document successfully deleted!");
+            storage.ref(`images/${memory.data.imageName}`).delete().then(function () {
+                console.log('image deleted successfully');
+            }).catch(function (error) {
+                console.log('Uh-oh, an error occurred while deleting the image', error);
+            });
+            console.log("Document successfully deleted!");
         }).catch(function (error) {
-          console.error("Error removing document: ", error);
+            console.error("Error removing document: ", error);
         })
 
         handleClose()
-    
-      }
-      
-    // const [open, setOpen] = React.useState(false);
+    }
 
-    // const handleClickOpen = () => {
-    //     setOpen(true);
-    // };
-      //update memory to the database
-      const editMemory = () => {
-          setEditClick(true)
-        // return (
-        // //   db.collection("Albums").doc(albumId).collection("Memories").doc(memory.id).update({ foo: "bar" })
-        // )
-      }
-    const [isEditClicked, setEditClick]=React.useState(false)
+    const [openEditModal, setOpenEditModal] = React.useState(false);
+
+    const handleEditMemory = () => {
+        setOpenEditModal(true);
+        handleClose()
+    };
 
     return (
         <div className={classes.settings}>
@@ -112,22 +104,25 @@ export default function MemorySettingMenu({memory, albumId, handleClickOpen}) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <StyledMenuItem className={classes.add} onClick={handleClickOpen}> 
+                <StyledMenuItem className={classes.add} onClick={handleEditMemory}>
                     <ListItemIcon  >
-                   
                         <EditIcon fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary="Edit" />
                 </StyledMenuItem>
-                {/* <EditModal memory={memory} albumId={albumId}/> */}
-                <StyledMenuItem onClick={deleteMemory}>
+                <StyledMenuItem onClick={handleDeleteMemory}>
                     <ListItemIcon>
                         <DeleteIcon fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary="Delete" />
                 </StyledMenuItem>
             </StyledMenu>
-            {/* {open && <EditModal memory={memory} albumId={albumId}/>} */}
+            <EditModal
+                memory={memory}
+                albumId={albumId}
+                openEdit={openEditModal}
+                setOpenEditModal={setOpenEditModal}
+            />
         </div>
     );
 }

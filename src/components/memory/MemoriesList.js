@@ -4,7 +4,6 @@ import Memory from "./Memory";
 import Subnav from './Subnav';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import EditModal from "../memory/EditModal"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -14,17 +13,21 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+const randomId = () => {
+  return Math.floor(Math.random() * 1000000 + 1)
+}
+
 export default function MemoryList({ memories, albumName, albumId, setMemories}) {
 
   const classes = useStyles();
 
   const submitData = (formData) => {
     uploadImage(formData)
-
   }
   const uploadImage = (formData) => {
     const image = formData.imageFile;
-    const uploadTask = storage.ref(`images/${image.name}`).put(image);
+    const imageName = randomId() + '-' + image.name;
+    const uploadTask = storage.ref(`images/${imageName}`).put(image);
     uploadTask.on('state_changed',
       (snapshot) => {
         // progrss function ....
@@ -37,8 +40,8 @@ export default function MemoryList({ memories, albumName, albumId, setMemories})
       },
       () => {
         // complete function ....
-        storage.ref('images').child(image.name).getDownloadURL().then(url => {
-          db.collection('Albums').doc(albumId).collection("Memories").add({ ...formData, imageFile: url, imageName: image.name })
+        storage.ref('images').child(imageName).getDownloadURL().then(url => {
+          db.collection('Albums').doc(albumId).collection("Memories").add({ ...formData, imageFile: url, imageName: imageName })
           console.log('url', url);
         })
       });

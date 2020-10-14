@@ -9,8 +9,6 @@ export default function MemoriesListContainer() {
 
   const [albumDetail, setAlbumDetail] = useState('');
 
-  const [deletedItemId, setDeletedItemId] = useState("");
-
   const fetchAlbumDetail = async () => {
     const res = await db.collection('Albums').doc(albumId).get()
     setAlbumDetail(res.data());
@@ -25,20 +23,30 @@ export default function MemoriesListContainer() {
     db.collection("Albums").doc(albumId).collection("Memories").onSnapshot(function (snapshot) {
       let memoriesList = memories;
       snapshot.docChanges().forEach(function (change) {
-        // console.log(change.);
+        console.log(change);
         if (change.type === "added") {
           const memory = {
             id: change.doc.id,
             data: change.doc.data()
           }
           memoriesList.push(memory)
+          console.log("after add", memoriesList);
         }
-        // if (change.type === "modified") {
-        //     console.log("Modified city: ", change.doc.data());
-        // }
+        if (change.type === "modified") {
+          const moditiedMemoryIndex = memoriesList.findIndex(memory => memory.id === change.doc.id);
+
+          const modifiedMemory = {
+            id: change.doc.id,
+            data: change.doc.data()
+          }
+          memoriesList.splice(moditiedMemoryIndex, 1, modifiedMemory);
+
+          console.log("Modified: ", memoriesList);
+        }
         if (change.type === "removed") {
           const removedId = change.doc.id;
           memoriesList = memoriesList.filter(memory => memory.id !== removedId);
+          console.log("deletion", memoriesList);
         }
 
         setMemories([...memoriesList])
