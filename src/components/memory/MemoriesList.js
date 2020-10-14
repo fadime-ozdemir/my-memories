@@ -52,6 +52,7 @@ export default function MemoryList({ memories, albumName, albumId, setMemories})
         <Grid container spacing={3}>
           {memories.map(memory => <Memory memory={memory} key={memory.id} albumId={albumId} setMemories={setMemories} />)}
         </Grid>
+        // <EditModal />
       ) : null}
     </div>
   )

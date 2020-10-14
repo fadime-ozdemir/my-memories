@@ -9,6 +9,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import db, { storage } from "../../../firebaseConfig";
+import EditModal from '../EditModal';
 
 
 const useStyles = makeStyles({
@@ -50,7 +51,7 @@ const StyledMenuItem = withStyles((theme) => ({
     },
 }))(MenuItem);
 
-export default function MemorySettingMenu({memory, albumId}) {
+export default function MemorySettingMenu({memory, albumId, handleClickOpen}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const classes = useStyles();
@@ -78,13 +79,20 @@ export default function MemorySettingMenu({memory, albumId}) {
         handleClose()
     
       }
+      
+    // const [open, setOpen] = React.useState(false);
+
+    // const handleClickOpen = () => {
+    //     setOpen(true);
+    // };
       //update memory to the database
       const editMemory = () => {
+          setEditClick(true)
         // return (
         // //   db.collection("Albums").doc(albumId).collection("Memories").doc(memory.id).update({ foo: "bar" })
         // )
       }
-    
+    const [isEditClicked, setEditClick]=React.useState(false)
 
     return (
         <div className={classes.settings}>
@@ -104,8 +112,9 @@ export default function MemorySettingMenu({memory, albumId}) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <StyledMenuItem>
-                    <ListItemIcon onClick={editMemory}>
+                <StyledMenuItem className={classes.add} onClick={handleClickOpen}> 
+                    <ListItemIcon  >
+                   
                         <EditIcon fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary="Edit" />
@@ -117,6 +126,7 @@ export default function MemorySettingMenu({memory, albumId}) {
                     <ListItemText primary="Delete" />
                 </StyledMenuItem>
             </StyledMenu>
+            {/* {open && <EditModal memory={memory} albumId={albumId}/>} */}
         </div>
     );
 }

@@ -11,7 +11,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import Grid from '@material-ui/core/Grid';
 import * as admin from 'firebase-admin';
 import MemorySettingMenu from './components/MemorySettingMenu'
-
+import EditModal from "./EditModal"
 // admin.initializeApp();
 
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +41,11 @@ const useStyles = makeStyles((theme) => ({
 export default function Memory({ memory, albumId, setMemories }) {
   const classes = useStyles();
   console.log("memory", memory)
+  const [open, setOpen] = React.useState(false);
 
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
   return (
     <Grid item xs={3}>
       <Card className={classes.root}>
@@ -68,7 +72,9 @@ export default function Memory({ memory, albumId, setMemories }) {
           <MemorySettingMenu  
             memory={memory}
             albumId={albumId}
+            handleClickOpen={handleClickOpen}
           />
+          
           {/* <IconButton
             className={classes.settings}
             aria-label="settings"
@@ -77,6 +83,7 @@ export default function Memory({ memory, albumId, setMemories }) {
           </IconButton> */}
         </CardActions>
       </Card>
+      {open && <EditModal memory={memory} albumId={albumId}/>}
     </Grid>
   );
 }

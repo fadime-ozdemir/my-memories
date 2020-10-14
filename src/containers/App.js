@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Navbar from '../components/navbar/Navbar';
 import AlbumListContainer from "../containers/AlbumListContainer";
-import MemoryModal from "../components/memory/MemoryModal";
+
 import MemoriesListContainer from "./MemoriesListContainer"
 import {
   BrowserRouter as Router,

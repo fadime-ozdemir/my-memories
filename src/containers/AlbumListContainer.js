@@ -36,7 +36,8 @@ export default function AlbumListContainer() {
                 // }
                 if (change.type === "removed") {
                     const removedAlbumId = change.doc.id;
-                    albumsList = albumsList.filter(memory => memory.id !== removedAlbumId);
+                    albumsList = albumsList.filter(album => album.id !== removedAlbumId);
+                    
                 }
                 setAlbums([...albumsList])
             });
