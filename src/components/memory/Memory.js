@@ -38,14 +38,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Memory({ memory, albumId, setMemories }) {
+export default function Memory({ memory, albumId, handleClickOpen }) {
   const classes = useStyles();
   console.log("memory", memory)
-  const [open, setOpen] = React.useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+  
   return (
     <Grid item xs={3}>
       <Card className={classes.root}>
@@ -83,7 +79,7 @@ export default function Memory({ memory, albumId, setMemories }) {
           </IconButton> */}
         </CardActions>
       </Card>
-      {open && <EditModal memory={memory} albumId={albumId}/>}
+      {/* {open && <EditModal memory={memory} albumId={albumId}/>} */}
     </Grid>
   );
 }

@@ -4,7 +4,7 @@ import Memory from "./Memory";
 import Subnav from './Subnav';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-
+import EditModal from "../memory/EditModal"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,16 +43,24 @@ export default function MemoryList({ memories, albumName, albumId, setMemories})
         })
       });
   }
+  const [open, setOpen] = React.useState(false);
 
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
   return (
 
     <div className={classes.root}>
       <Subnav albumName={albumName} submitData={submitData} />
+
       {memories && memories.length > 0 ? (
+        // <EditModal memory={memories} albumId={albumId} />
         <Grid container spacing={3}>
-          {memories.map(memory => <Memory memory={memory} key={memory.id} albumId={albumId} setMemories={setMemories} />)}
+          {memories.map(memory => {return <>
+          <Memory memory={memory} key={memory.id} albumId={albumId} setMemories={setMemories}  handleClickOpen={handleClickOpen}/>
+          </>})}
         </Grid>
-        // <EditModal />
+        
       ) : null}
     </div>
   )

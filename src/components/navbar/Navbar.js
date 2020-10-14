@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function Navbar() {
+export default function Navbar(user) {
 
 
 
@@ -186,14 +186,26 @@ export default function Navbar() {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
+          {/* should log out/log  */}
+          <Typography className={classes.title} variant="h6" noWrap>
+            
+            {user?  
+            <Link to="/login" className={classes.link}>
+              Log Out
+              </Link> : 
+              <Link to="/login" className={classes.link}>
+              Log In
+              </Link>}
+         
+          </Typography>
           <Typography className={classes.title} variant="h6" noWrap>
             <Link to="/" className={classes.link}>
               MyMemories

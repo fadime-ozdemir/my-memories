@@ -119,6 +119,7 @@ export default function MemorySettingMenu({memory, albumId, handleClickOpen}) {
                     </ListItemIcon>
                     <ListItemText primary="Edit" />
                 </StyledMenuItem>
+                {/* <EditModal memory={memory} albumId={albumId}/> */}
                 <StyledMenuItem onClick={deleteMemory}>
                     <ListItemIcon>
                         <DeleteIcon fontSize="small" />
