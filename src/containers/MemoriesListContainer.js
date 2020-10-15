@@ -21,7 +21,7 @@ export default function MemoriesListContainer() {
 
   useEffect(() => {
     db.collection("Albums").doc(albumId).collection("Memories").onSnapshot(function (snapshot) {
-      let memoriesList = memories;
+      let memoriesList = [...memories];
       snapshot.docChanges().forEach(function (change) {
         console.log(change);
         if (change.type === "added") {
