@@ -3,36 +3,36 @@ import firebase from "../../firebaseConfig"
 import Button from '@material-ui/core/Button';
 
 
-export default function Profile() {
-    const user = firebase.auth().currentUser;
-    let email,  uid;
+export default function Profile(user) {
+//     const user = firebase.auth().currentUser;
+//     let email,  uid;
 
-if (user != null) {
-   email = user.email;
+// if (user != null) {
+//    email = user.email;
 
-     uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
-                   // this value to authenticate with your backend server, if
-                   // you have one. Use User.getToken() instead.
-}
+//      uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
+//                    // this value to authenticate with your backend server, if
+//                    // you have one. Use User.getToken() instead.
+// }
 
-const deleteAccount =()=>{
-    return user.delete().then(function() {
-        // User deleted.
-        console.log("user deleted successfully")
-      }).catch(function(error) {
-        // An error happened.
-        console.log("there is a problem")
-      }); 
-}
+// const deleteAccount =()=>{
+//     return user.delete().then(function() {
+//         // User deleted.
+//         console.log("user deleted successfully")
+//       }).catch(function(error) {
+//         // An error happened.
+//         console.log("there is a problem")
+//       }); 
+// }
 
     return (
         <div>
             <h2>UserName</h2>
-            <p>Id: {uid}</p>
+            {/* <p>Id: {uid}</p>
             <p>Email: {email}</p>  
 
             <h3>Delete account</h3>
-            <Button onClick={deleteAccount}>Delete</Button>
+            <Button onClick={deleteAccount}>Delete</Button> */}
         </div>
     )
 }

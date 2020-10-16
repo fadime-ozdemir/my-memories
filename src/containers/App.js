@@ -19,10 +19,9 @@ function App() {
     <Router>
       <div className="App">
         <Navbar user={user}/>
+       
         <Switch>
-          <Route path={`/:albumId`}>
-            <MemoriesListContainer />
-          </Route>
+        
           <Route exact path="/login">
             <LogIn user={user} setUser={setUser}/>
           </Route>
@@ -31,6 +30,9 @@ function App() {
           </Route>
           <Route exact path="/setting">
             <Setting user={user} setUser={setUser}/>
+          </Route>
+          <Route exact path={`/:albumId`}>
+            <MemoriesListContainer />
           </Route>
           <Route path="/">
             <AlbumListContainer />

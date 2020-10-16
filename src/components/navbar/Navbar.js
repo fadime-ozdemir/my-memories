@@ -131,7 +131,7 @@ export default function Navbar(user) {
       <Link to="/profile">
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       </Link>
-      <Link to="setting">
+      <Link to="/setting">
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       </Link>
       {/* If there is a user show log out, otherwise log in */}
