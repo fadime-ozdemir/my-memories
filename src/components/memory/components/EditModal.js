@@ -94,6 +94,7 @@ export default function EditModal({ memory, albumId, openEdit, setOpenEditModal 
                 // progrss function ....
                 const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
                 console.log("progress", progress);
+                
             },
             (error) => {
                 // error function ....
@@ -170,6 +171,7 @@ export default function EditModal({ memory, albumId, openEdit, setOpenEditModal 
                         value={formData.date}
                         onChange={handleChange}
                     />
+                    
                     <DropzoneArea
                         acceptedFiles={['image/*']}
                         dropzoneText={"Drag and drop an image here or click"}
