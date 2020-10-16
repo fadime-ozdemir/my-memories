@@ -1,123 +1,40 @@
 import React from 'react'
-import {auth} from "../../firebaseConfig";
+import { auth } from "../../firebaseConfig";
+import { FirebaseAuth } from "react-firebaseui"
+import { Redirect } from "react-router-dom"
 
-export default function LogIn({user, setUser}) {
- 
-    const [password, setPassword] = React.useState("");
-    const [passwordError, setPasswordError] = React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [emailError, setEmailError] = React.useState("");
-    const [hasAccount, setHasAccount] = React.useState(false);
-  
-    const clearInputs = () => {
-      setPassword("");
-      setEmail("");
-    };
-  
-    const clearErrMessages = () => {
-      setPasswordError("");
-      setEmailError("");
-    };
-    const handleLogIn = () => {
-      clearErrMessages();
-      auth
-        .signInWithEmailAndPassword(email, password)
-        .catch(function (error) {
-          // Handle Errors here.
-          switch (error.code) {
-            case "auth/invalid-email":
-            case "auth/user-not-found":
-              setEmailError(error.message);
-              break;
-            case "auth/wrong-password":
-              setPasswordError(error.message);
-              break;
-            default:
-              setEmailError("unknown error");
-              setPasswordError("unknown error");
-          }
-          })
-    };
-  
-    const handleSignUp = () => {
-      clearErrMessages();
-      auth
-        .createUserWithEmailAndPassword(email, password)
-        .catch(function (error) {
-          // Handle Errors here.
-          switch (error.code) {
-            case "auth/invalid-email":
-            case "auth/email-already-in-use":
-              setEmailError(error.message);
-              break;
-            case "auth/weak-password":
-              setPasswordError(error.message);
-              break;
-            default:
-              setEmailError("unknown error");
-              setPasswordError("unknown error");
-          }
-        });
-    };
-  
-    const handleLogOut = () => {
-      auth.signOut();
-      console.log("hasAccountHandleButton", hasAccount)
-    };
-  
-    const authListener = () => {
-      auth.onAuthStateChanged(function (user) {
-        if (user) {
-          clearInputs();
-          setUser(user);
-        } else {
-          setUser("");
-        }
-      });
-    };
-    // console.log("hasAccount", hasAccount);
-    const showLogIn =()=>{
-      console.log("hi")
+export default function LogIn({ user, setUser }) {
+  const [isSignedIn, setIsSignedIn] = React.useState(false)
+
+  const uiConfig = {
+    signInFlow: "popup",
+    signInOptions: [
+      // Leave the lines as is for the providers you want to offer your users.
+      auth.GoogleAuthProvider.PROVIDER_ID,
+      auth.FacebookAuthProvider.PROVIDER_ID,
+      // auth.TwitterAuthProvider.PROVIDER_ID,
+      // auth.GithubAuthProvider.PROVIDER_ID,
+      auth.EmailAuthProvider.PROVIDER_ID,
+      // auth.PhoneAuthProvider.PROVIDER_ID,
+
+    ],
+    callbacks: {
+      signInSuccessWithAuthResult: () => false
     }
-    React.useEffect(() => {
-      authListener();
-    }, []);
-  
-    return (
+  };
+  React.useEffect(() => {
+    auth().onAuthStateChanged(user => {
+      setIsSignedIn(!user)
+    })
+  }, [])
+  return (
+    <div>
+      {isSignedIn ? <Redirect to={{ pathname: "/" }} /> :
         <div>
-        <label>Email:</label>
-        <input 
-        type="text"
-        autoFocus
-        required
-        value={email}
-        onChange={e=>setEmail(e.target.value)}
-        />
-        <p>{emailError}</p>
-        <label>Password:</label>
-        <input 
-        type="text"
-        autoFocus
-        required
-        value={password}
-        onChange={e=>setPassword(e.target.value)}
-        />
-        <p>{passwordError}</p>
-        <div className="buttons">
-            {/* { */}
-               {/* hasAccount?( */}
-                    <div>
-                    <button onClick={handleLogIn}>Sign In</button>
-                    {/* <p>İf you haven't an account, <span onClick={setHasAccount(!hasAccount)}>Sign Up</span></p> */}
-                    </div>
-                {/* ):( */}
-                    <div>
-                    <button onClick={handleSignUp}>Sign Up</button>
-                    {/* <p>If you have an account, <span onClick={setHasAccount(!hasAccount)}>Sign In</span></p> */}
-                    </div>
-                 {/* ) */}
-            {/* } */}
+          <h2 className="title">Sign In</h2>
+          <FirebaseAuth uiConfig={uiConfig} firebaseAuth={auth()} />
         </div>
+      }
     </div>
-    )
+  )
 }
