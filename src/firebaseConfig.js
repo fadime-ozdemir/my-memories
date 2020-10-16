@@ -17,14 +17,4 @@ const firebaseConfig = {
 
   export const storage = firebase.storage();
 
-  //storage
-  var admin = require("firebase-admin");
-
-  var serviceAccount = require("./my-memories-8ff66-firebase-adminsdk-r1n5k-99a9d32a74.json");
   
-  admin.initializeApp(/* {
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://my-memories-8ff66.firebaseio.com"
-  } */);
-
-export const  defaultBucket = admin.storage().bucket("images");

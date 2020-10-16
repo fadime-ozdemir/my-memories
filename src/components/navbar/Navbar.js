@@ -130,6 +130,13 @@ export default function Navbar(user) {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {/* If there is a user show log out, otherwise log in */}
+      <Link to="/login">
+      <MenuItem onClick={handleMenuClose}>Log Out</MenuItem>
+      </Link>
+      <Link to="/login">
+      <MenuItem onClick={handleMenuClose}>Log In</MenuItem>
+      </Link>
     </Menu>
   );
 
@@ -197,13 +204,7 @@ export default function Navbar(user) {
           {/* should log out/log  */}
           <Typography className={classes.title} variant="h6" noWrap>
             
-            {user?  
-            <Link to="/login" className={classes.link}>
-              Log Out
-              </Link> : 
-              <Link to="/login" className={classes.link}>
-              Log In
-              </Link>}
+            
          
           </Typography>
           <Typography className={classes.title} variant="h6" noWrap>
