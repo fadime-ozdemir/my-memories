@@ -1,5 +1,5 @@
 import React from 'react'
-import firebase from "../../firebaseConfig";
+import {auth} from "../../firebaseConfig";
 
 export default function LogIn({user, setUser}) {
  
@@ -20,8 +20,7 @@ export default function LogIn({user, setUser}) {
     };
     const handleLogIn = () => {
       clearErrMessages();
-      firebase
-        .auth()
+      auth
         .signInWithEmailAndPassword(email, password)
         .catch(function (error) {
           // Handle Errors here.
@@ -42,8 +41,7 @@ export default function LogIn({user, setUser}) {
   
     const handleSignUp = () => {
       clearErrMessages();
-      firebase
-        .auth()
+      auth
         .createUserWithEmailAndPassword(email, password)
         .catch(function (error) {
           // Handle Errors here.
@@ -63,12 +61,12 @@ export default function LogIn({user, setUser}) {
     };
   
     const handleLogOut = () => {
-      firebase.auth().signOut();
+      auth.signOut();
       console.log("hasAccountHandleButton", hasAccount)
     };
   
     const authListener = () => {
-      firebase.auth().onAuthStateChanged(function (user) {
+      auth.onAuthStateChanged(function (user) {
         if (user) {
           clearInputs();
           setUser(user);
