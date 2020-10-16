@@ -11,18 +11,21 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Badge from '@material-ui/core/Badge';
 import IconButton from '@material-ui/core/IconButton';
 import {Redirect} from "react-router-dom";
-
-
+import AppContext from '../../../components/AppContext'
 
 //create a new collection in the database
 export default function AddNewAlbum() {
+  const {user} = React.useContext(AppContext);
+
+  console.log(user);
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   const [userInput, setUserInput] = useState({
     name: "",
-    userId: "wfgh42",
+    userId: user.uid,
     creationDate: ""
   });
+
 
   const handleChange = (e) => {
     setUserInput({ ...userInput, name: e.target.value, creationDate: new Date() })
@@ -33,7 +36,7 @@ export default function AddNewAlbum() {
     addAlbum(e);
     setUserInput({
       name: "",
-      userId: "wfgh42",
+      userId: user.uid,
       creationDate: ""
     });
 
@@ -42,7 +45,6 @@ export default function AddNewAlbum() {
   const addAlbum = e => {
     e.preventDefault()
     db.collection('Albums').add(userInput)
-
   }
 
   const [open, setOpen] = React.useState(false);

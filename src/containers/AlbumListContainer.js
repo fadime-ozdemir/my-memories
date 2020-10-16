@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import db from '../firebaseConfig';
 import AlbumList from "../components/Album/AlbumList";
+import AppContext from '../components/AppContext'
 
 export default function AlbumListContainer() {
     const [albums, setAlbums] = useState([])
     
+    const {user} = React.useContext(AppContext);
+
     useEffect(() => {
         db.collection("Albums").onSnapshot(function (snapshot) {
             
             snapshot.docChanges().forEach(function (change) {
-                // console.log(change.);
-                if (change.type === "added") {
+                const userId = change.doc.data().userId
+                if (change.type === "added" && userId === user.uid) {
                     const album = {
                         id: change.doc.id,
                         data: change.doc.data()
@@ -18,7 +21,7 @@ export default function AlbumListContainer() {
 
                     setAlbums((prevAlbums) => [...prevAlbums, album]);
                 }
-                if (change.type === "modified") {
+                if (change.type === "modified" && userId === user.uid) {
                     const modifiedAlbum = {
                         id: change.doc.id,
                         data: change.doc.data(),
@@ -32,7 +35,7 @@ export default function AlbumListContainer() {
                         return newAlbums;
                       });
                 }
-                if (change.type === "removed") {
+                if (change.type === "removed" && userId === user.uid) {
                     const removedId = change.doc.id;
                     setAlbums((prevState) => {
                         console.log(change.doc.data())

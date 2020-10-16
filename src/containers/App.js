@@ -5,42 +5,83 @@ import AlbumListContainer from "../containers/AlbumListContainer";
 import LogIn from "../components/LogIn/LogIn"
 import MemoriesListContainer from "./MemoriesListContainer"
 import Profile from "../components/profile/Profile"
-import Setting from "../components/setting/Setting"
+import Home from '../components/Home'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useRouteMatch,
+  Redirect,
 } from "react-router-dom";
+import AppContext from '../components/AppContext'
+import {auth} from '../firebaseConfig'
+
+const uiConfig = {
+  signInFlow: "popup",
+  signInOptions: [
+    // Leave the lines as is for the providers you want to offer your users.
+    auth.GoogleAuthProvider.PROVIDER_ID,
+    auth.FacebookAuthProvider.PROVIDER_ID,
+    // auth.TwitterAuthProvider.PROVIDER_ID,
+    // auth.GithubAuthProvider.PROVIDER_ID,
+    auth.EmailAuthProvider.PROVIDER_ID,
+    // auth.PhoneAuthProvider.PROVIDER_ID,
+
+  ],
+  callbacks: {
+    signInSuccessWithAuthResult: () => false
+  }
+};
 
 function App() {
-  const [globalState, setGlobalState]= 
+  const [user, setUser] = React.useState();
+  console.log("first", user);
+
+  auth().onAuthStateChanged(user => {
+    setUser(user);
+    console.log("app use effct", user);
+  })
+
+  React.useEffect(() => {
+  }, [])
+
+
   return (
-    <Router>
-      <div className="App">
-        <Navbar />
-       
-        <Switch>
-        
-          <Route exact path="/login">
-            <LogIn />
-          </Route>
-          <Route exact path="/profile">
-            <Profile />
-          </Route>
-          <Route exact path="/setting">
-            <Setting />
-          </Route>
-          <Route exact path={`/:albumId`}>
-            <MemoriesListContainer />
-          </Route>
-          <Route path="/">
-            <AlbumListContainer />
-          </Route>
-          
-        </Switch>
-      </div>
-    </Router>
+    <AppContext.Provider value={{ user, setUser }}>
+      <Router>
+        <div className="App">
+          <Navbar />
+          <Switch>
+            <Route exact path="/login">
+              {!!user ?
+                <Redirect to="/albums" />
+                :
+                <LogIn uiConfig={uiConfig} />
+              }
+            </Route>
+            <Route exact path="/profile">
+              <Profile />
+            </Route>
+            <Route exact path={`/albums`}>
+              {!user ?
+                <Redirect to="/login" />
+                :
+                <AlbumListContainer />
+              }
+            </Route>
+            <Route exact path={`/albums/:albumId`}>
+              <MemoriesListContainer />
+            </Route>
+            <Route exact path="/">
+              {!!user ?
+                <Redirect to="/albums" />
+                :
+                <Home />
+              }
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </AppContext.Provider>
   );
 }
 

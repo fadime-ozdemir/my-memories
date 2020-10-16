@@ -53,7 +53,7 @@ export default function Album({ album }) {
           <AlbumSettingMenu albumId={album.id} />
         </CardActions>
         <CardContent className={classes.content}>
-          <Link to={'/' + album.id} className={classes.link}>
+          <Link to={'/albums/' + album.id} className={classes.link}>
             <Typography variant="h5" component="h2">
               {album.data.name}
             </Typography>

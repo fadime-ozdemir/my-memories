@@ -16,7 +16,10 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ShareIcon from '@material-ui/icons/Share';
 import AddNewAlbum from "./components/AddNewAlbum";
-import { Link } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
+import { auth } from '../../firebaseConfig'
+import AppContext from '../../components/AppContext'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -90,15 +93,16 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function Navbar() {
-
-
-
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
+  const { user } = React.useContext(AppContext)
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  let history = useHistory()
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -117,6 +121,16 @@ export default function Navbar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleLogout = () => {
+    auth().signOut().then(function () {
+      console.log(user);
+      history.push('/')
+    }).catch(function (error) {
+      console.log("cannot sign out", error);
+    });
+    handleMenuClose();
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -129,17 +143,15 @@ export default function Navbar() {
       onClose={handleMenuClose}
     >
       <Link to="/profile">
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       </Link>
       <Link to="/setting">
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       </Link>
       {/* If there is a user show log out, otherwise log in */}
+      <MenuItem onClick={handleLogout}>Log Out</MenuItem>
       <Link to="/login">
-      <MenuItem onClick={handleMenuClose}>Log Out</MenuItem>
-      </Link>
-      <Link to="/login">
-      <MenuItem onClick={handleMenuClose}>Log In</MenuItem>
+        <MenuItem onClick={handleMenuClose}>Log In</MenuItem>
       </Link>
     </Menu>
   );
@@ -207,9 +219,9 @@ export default function Navbar() {
           </IconButton> */}
           {/* should log out/log  */}
           <Typography className={classes.title} variant="h6" noWrap>
-            
-            
-         
+
+
+
           </Typography>
           <Typography className={classes.title} variant="h6" noWrap>
             <Link to="/" className={classes.link}>
@@ -231,6 +243,8 @@ export default function Navbar() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+          {!!user && (
+            <>
             <IconButton aria-label="share the board" color="inherit">
               <Badge color="secondary">
                 <ShareIcon />
@@ -242,16 +256,30 @@ export default function Navbar() {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            </>
+          )}
+            {!!user ?
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              :
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-haspopup="true"
+                onClick={() => history.push('/login')}
+                color="inherit"
+              >
+                <ExitToAppIcon />
+              </IconButton>
+            }
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

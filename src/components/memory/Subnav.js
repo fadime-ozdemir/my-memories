@@ -88,7 +88,7 @@ export default function Subnav({ albumName, submitData }) {
     return (
         <div className={classes.root}>
             <Breadcrumbs aria-label="breadcrumb" separator="|">
-                <Link color="inherit" href="/" className={classes.link}>
+                <Link color="inherit" href="/albums" className={classes.link}>
                     <HomeIcon className={classes.icon} />
                     Albums
                 </Link>
