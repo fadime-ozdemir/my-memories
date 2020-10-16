@@ -20,7 +20,7 @@ export default function AlbumListContainer() {
 
     useEffect(() => {
         db.collection("Albums").onSnapshot(function (snapshot) {
-            let albumsList = albums;
+            
             snapshot.docChanges().forEach(function (change) {
                 // console.log(change.);
                 if (change.type === "added") {
@@ -29,17 +29,34 @@ export default function AlbumListContainer() {
                         data: change.doc.data()
                     }
 
-                    albumsList.push(album);
+                    setAlbums((prevAlbums) => [...prevAlbums, album]);
                 }
-                // if (change.type === "modified") {
-                //     console.log("Modified city: ", change.doc.data());
-                // }
+                if (change.type === "modified") {
+                    const modifiedAlbum = {
+                        id: change.doc.id,
+                        data: change.doc.data(),
+                      };
+                      setAlbums((prevAlbums) => {
+                        let newAlbums = [...prevAlbums];
+                        const moditiedAlbumIndex = newAlbums.findIndex(
+                          (album) => album.id === change.doc.id
+                        );
+                        newAlbums.splice(moditiedAlbumIndex, 1, modifiedAlbum);
+                        return newAlbums;
+                      });
+                }
                 if (change.type === "removed") {
-                    const removedAlbumId = change.doc.id;
-                    albumsList = albumsList.filter(album => album.id !== removedAlbumId);
-                    
+                    const removedId = change.doc.id;
+                    setAlbums((prevState) => {
+                        let newAlbums = [...prevState];
+                        newAlbums = newAlbums.filter(
+                          (memory) => memory.id !== removedId
+                        );
+                        return newAlbums;
+                      });
+                      console.log("Album is removed !");
                 }
-                setAlbums([...albumsList])
+               
             });
 
         });
