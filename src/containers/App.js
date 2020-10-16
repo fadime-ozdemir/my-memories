@@ -14,22 +14,22 @@ import {
 } from "react-router-dom";
 
 function App() {
-  const [user, setUser] = React.useState("");
+  const [globalState, setGlobalState]= 
   return (
     <Router>
       <div className="App">
-        <Navbar user={user}/>
+        <Navbar />
        
         <Switch>
         
           <Route exact path="/login">
-            <LogIn user={user} setUser={setUser}/>
+            <LogIn />
           </Route>
           <Route exact path="/profile">
-            <Profile user={user} setUser={setUser}/>
+            <Profile />
           </Route>
           <Route exact path="/setting">
-            <Setting user={user} setUser={setUser}/>
+            <Setting />
           </Route>
           <Route exact path={`/:albumId`}>
             <MemoriesListContainer />

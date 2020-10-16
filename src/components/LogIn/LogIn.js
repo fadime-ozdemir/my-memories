@@ -2,10 +2,11 @@ import React from 'react'
 import { auth } from "../../firebaseConfig";
 import { FirebaseAuth } from "react-firebaseui"
 import { Redirect } from "react-router-dom"
-
-export default function LogIn({ user, setUser }) {
+import AppContext from "../AppContext"
+export default function LogIn() {
   const [isSignedIn, setIsSignedIn] = React.useState(false)
-
+  
+  const { user } = React.useContext(AppContext);
   const uiConfig = {
     signInFlow: "popup",
     signInOptions: [

@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function Navbar(user) {
+export default function Navbar() {
 
 
 
