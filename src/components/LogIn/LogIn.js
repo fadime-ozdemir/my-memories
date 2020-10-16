@@ -77,7 +77,7 @@ export default function LogIn({user, setUser}) {
         }
       });
     };
-    console.log("hasAccount", hasAccount);
+    // console.log("hasAccount", hasAccount);
     const showLogIn =()=>{
       console.log("hi")
     }
@@ -106,19 +106,19 @@ export default function LogIn({user, setUser}) {
         />
         <p>{passwordError}</p>
         <div className="buttons">
-            {
-                hasAccount?(
-                    <>
+            {/* { */}
+               {/* hasAccount?( */}
+                    <div>
                     <button onClick={handleLogIn}>Sign In</button>
-                    <p>İf you haven't an account, <span onClick={setHasAccount(!hasAccount)}>Sign Up</span></p>
-                    </>
-                ):(
-                    <>
+                    {/* <p>İf you haven't an account, <span onClick={setHasAccount(!hasAccount)}>Sign Up</span></p> */}
+                    </div>
+                {/* ):( */}
+                    <div>
                     <button onClick={handleSignUp}>Sign Up</button>
-                    <p>If you have an account, <span onClick={setHasAccount(!hasAccount)}>Sign In</span></p>
-                    </>
-                )
-            }
+                    {/* <p>If you have an account, <span onClick={setHasAccount(!hasAccount)}>Sign In</span></p> */}
+                    </div>
+                 {/* ) */}
+            {/* } */}
         </div>
     </div>
     )
