@@ -128,8 +128,12 @@ export default function Navbar(user) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      <Link to="/profile">
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      </Link>
+      <Link to="setting">
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      </Link>
       {/* If there is a user show log out, otherwise log in */}
       <Link to="/login">
       <MenuItem onClick={handleMenuClose}>Log Out</MenuItem>
