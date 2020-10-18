@@ -12,11 +12,14 @@ import Badge from '@material-ui/core/Badge';
 import IconButton from '@material-ui/core/IconButton';
 import {Redirect} from "react-router-dom";
 import AppContext from '../../../components/AppContext'
-
-export default function EditModalAlbum(albumId) {
+// album={album}
+//                 albumId={albumId}
+//                 openEdit={openEditModal}
+//                 setOpenEditModal={setOpenEditModal}
+export default function EditModalAlbum({albumId, openEdit, setOpenEditModal}) {
     const {user} = React.useContext(AppContext);
 
-    console.log("user",user);
+    console.log("user in edit modal Album",user);
     const [shouldRedirect, setShouldRedirect] = useState(false);
   
     const [userInput, setUserInput] = useState({
@@ -29,7 +32,7 @@ export default function EditModalAlbum(albumId) {
     const handleChange = (e) => {
       setUserInput({ ...userInput, name: e.target.value, creationDate: new Date() })
     }
-    console.log("Beofre user input",userInput);
+    console.log("user input",userInput);
     const handleSubmit = (e) => {
       handleClose();
       editAlbum(e);
@@ -45,26 +48,25 @@ export default function EditModalAlbum(albumId) {
       e.preventDefault()
       db.collection('Albums').doc(albumId).update(userInput)
     }
-    console.log("after user input",userInput);
-    const [open, setOpen] = React.useState(false);
-  
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
+ 
+   
+    // const handleEditClickOpen = () => {
+    //   setOpen(true);
+    // };
   
     const handleClose = () => {
-      setOpen(false);
+        setOpenEditModal(false);
     };
-  
+    console.log("is open", openEdit)
   
     return (
       <div>
-        <IconButton aria-label="show 17 new notifications" color="inherit" onClick={handleClickOpen}>
+        {/* <IconButton aria-label="show 17 new notifications" color="inherit" onClick={handleEditClickOpen}>
           <Badge badgeContent={0} color="secondary">
             <AddCircleIcon />
           </Badge>
-        </IconButton>
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        </IconButton> */}
+        <Dialog open={openEdit} onClose={handleClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Edit album</DialogTitle>
           <DialogContent>
             <DialogContentText>

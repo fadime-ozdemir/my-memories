@@ -77,7 +77,8 @@ export default function AlbumSettingMenu({albumId, album}) {
 
       const handleEditAlbum = () => {
           setOpenEditModal(true);
-          handleClose()
+        
+           
       };
      
 
@@ -101,8 +102,8 @@ export default function AlbumSettingMenu({albumId, album}) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <StyledMenuItem >
-                    <ListItemIcon>
+                <StyledMenuItem onClick={handleEditAlbum} >
+                    <ListItemIcon  >
                         <EditIcon fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary="Edit" />
