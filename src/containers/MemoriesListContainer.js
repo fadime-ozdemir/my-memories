@@ -59,7 +59,7 @@ export default function MemoriesListContainer() {
               );
               return newMemories;
             });
-            console.log("somethingi is removed !");
+            console.log("something is removed !");
           }
         });
       });
