@@ -9,7 +9,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import db from "../../../firebaseConfig";
-
+import EditModalAlbum from "./EditModalAlbum"
 
 const useStyles = makeStyles({
     settings: {
@@ -50,7 +50,7 @@ const StyledMenuItem = withStyles((theme) => ({
     },
 }))(MenuItem);
 
-export default function AlbumSettingMenu({albumId}) {
+export default function AlbumSettingMenu({albumId, album}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const classes = useStyles();
@@ -71,8 +71,15 @@ export default function AlbumSettingMenu({albumId}) {
         })
 
         handleClose()
-    
       }
+
+      const [openEditModal, setOpenEditModal] = React.useState(false);
+
+      const handleEditAlbum = () => {
+          setOpenEditModal(true);
+          handleClose()
+      };
+     
 
     return (
         <div className={classes.settings}>
@@ -107,6 +114,12 @@ export default function AlbumSettingMenu({albumId}) {
                     <ListItemText primary="Delete" />
                 </StyledMenuItem>
             </StyledMenu>
+            <EditModalAlbum
+                album={album}
+                albumId={albumId}
+                openEdit={openEditModal}
+                setOpenEditModal={setOpenEditModal}
+            />
         </div>
     );
 }

@@ -18,23 +18,20 @@ export default function MemoriesListContainer() {
 
   let { albumId } = useParams();
 
-  // console.log("album", albumDetail)
-
   useEffect(() => {
     db.collection("Albums")
       .doc(albumId)
       .collection("Memories")
       .onSnapshot(function (snapshot) {
         snapshot.docChanges().forEach(function (change) {
-          // console.log(change);
-
+          
           if (change.type === "added") {
             const memory = {
               id: change.doc.id,
               data: change.doc.data(),
             };
             setMemories((prevMemories) => [...prevMemories, memory]);
-            // console.log("after add", memoriesList);
+           
           }
           if (change.type === "modified") {
             const modifiedMemory = {

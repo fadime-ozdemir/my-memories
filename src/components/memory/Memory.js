@@ -68,15 +68,8 @@ export default function Memory({ memory, albumId, handleClickOpen }) {
             handleClickOpen={handleClickOpen}
           />
           
-          {/* <IconButton
-            className={classes.settings}
-            aria-label="settings"
-          >
-            <MoreVertIcon onClick={() => setToggle(setClick(!isClick))} />
-          </IconButton> */}
         </CardActions>
       </Card>
-      {/* {open && <EditModal memory={memory} albumId={albumId}/>} */}
     </Grid>
   );
 }

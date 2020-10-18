@@ -50,7 +50,7 @@ export default function Album({ album }) {
     <Grid item xs={3}>
       <Card className={classes.root} >
         <CardActions disableSpacing className={classes.header}>
-          <AlbumSettingMenu albumId={album.id} />
+          <AlbumSettingMenu albumId={album.id} album={album} />
         </CardActions>
         <CardContent className={classes.content}>
           <Link to={'/albums/' + album.id} className={classes.link}>
