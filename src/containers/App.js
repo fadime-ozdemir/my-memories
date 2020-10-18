@@ -36,12 +36,12 @@ function App() {
   const [user, setUser] = React.useState();
   console.log("first", user);
 
-  auth().onAuthStateChanged(user => {
-    setUser(user);
-    console.log("app use effct", user);
-  })
-
+  
   React.useEffect(() => {
+    auth().onAuthStateChanged(user => {
+      setUser(user);
+      console.log("app use effct", user);
+    })
   }, [])
 
 
