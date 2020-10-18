@@ -142,17 +142,14 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <Link to="/profile">
+      <Link to="/profile" style={{textDecoration: 'none', color: 'inherit'}}>
         <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       </Link>
-      <Link to="/setting">
+      <Link to="/setting" style={{textDecoration: 'none', color: 'inherit'}}>
         <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       </Link>
       {/* If there is a user show log out, otherwise log in */}
       <MenuItem onClick={handleLogout}>Log Out</MenuItem>
-      <Link to="/login">
-        <MenuItem onClick={handleMenuClose}>Log In</MenuItem>
-      </Link>
     </Menu>
   );
 
