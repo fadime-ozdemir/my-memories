@@ -33,7 +33,7 @@ const uiConfig = {
 };
 
 function App() {
-  const [user, setUser] = React.useState();
+  const [user, setUser] = React.useState(null);
   console.log("first", user);
 
   
